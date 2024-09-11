@@ -1,25 +1,28 @@
-
-from .vikingsClasses import Soldier, Viking, Saxon, War
+from vikingsClasses import Viking, Saxon, War
 import random
 
-
-soldier_names = ["albert","andres","archie","dani", "david","gerard","german","graham","imanol","laura"]
-
+war = War()
+min_strength = 20
+max_strength = 35
+soldier_names = ["Ragnar", "Bjoern", "Leif", "Erik", "Sven", "Harald", "Ivar", "Gunnar", "Sigurd", "Skadi"]
 
 #Create 5 Vikings
 for i in range(0,5):
-    if i:
-        War.addViking(Viking(soldier_names[random.randint(0,9)],100,random.randint(0,100)))
+    war.addViking(Viking(soldier_names[random.randint(0,9)],100,random.randint(min_strength, max_strength)))
 
 #Create 5 Saxons
 for i in range(0,5):
-    if i:
-        War.addSaxon(Saxon(100,random.randint(0,100)))
+    war.addSaxon(Saxon(100,random.randint(min_strength, max_strength)))
     
-round = 0
-while War.showStatus() == "Vikings and Saxons are still in the thick of battle.":
-    War.vikingAttack()
-    War.saxonAttack()
-    print(f"round: {round} // Viking army: {len(War.vikingArmy)} warriors",f"and Saxon army: {len(War.saxonArmy)} warriors")
-    print(War.showStatus())
+round = 1
+while war.stillActive():
+    print(f"==== Round: {round} ====")
+    print(war.vikingAttack())
+    if war.stillActive():
+        print(war.saxonAttack())
+
+    print("Viking army: {len(war.vikingArmy)} warriors left || Saxon army: {len(war.saxonArmy)} warriors left")
+    print(war.showStatus())
+
     round += 1
+    print('')
